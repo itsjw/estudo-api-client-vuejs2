@@ -4,6 +4,8 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+Vue.use(router)
+
 new Vue({ // eslint-disable-line no-new
   el: '#app',
   router,
