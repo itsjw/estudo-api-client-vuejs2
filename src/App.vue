@@ -10,6 +10,7 @@
         </div>
       </div>
       <div class="box" v-if="resultTask">
+        <h2 class="title">Detalhes da tarefa</h2>
         <div class="columns">
           <div class="column is-2">
             <div class="field">
@@ -29,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="box">
+      <div class="box" v-if="!resultTask">
         <h2 class="title">Nova tarefa</h2>
           <div class="field">
             <label>Título</label>
