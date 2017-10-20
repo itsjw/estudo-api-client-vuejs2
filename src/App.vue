@@ -119,7 +119,7 @@ export default {
       HTTP.post(`api/v1/task`, {title: this.newTask.title})
       .then(response => {
         this.fetchTasks()
-        this.newTask.title = '';
+        this.newTask.title = ''
       })
       .catch(e => {
         this.errors.push(e)
