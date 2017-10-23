@@ -75,7 +75,6 @@ export default {
   data () {
     return {
       tasks: [],
-      errors: [],
       message: '',
       searchId: '',
       resultTask: null,
@@ -92,7 +91,6 @@ export default {
         this.fetchAlltasks()
       })
       .catch(e => {
-        this.errors.push(e)
         console.log(e)
       })
     },
@@ -107,7 +105,6 @@ export default {
         this.resultTask = response.data
       })
       .catch(e => {
-        this.errors.push(e)
         console.log(e)
       })
     },
@@ -123,7 +120,6 @@ export default {
         this.newTask.title = ''
       })
       .catch(e => {
-        this.errors.push(e)
         console.log(e)
       })
     },
@@ -133,7 +129,6 @@ export default {
           this.tasks = response.data
         })
         .catch(e => {
-          this.errors.push(e)
           console.log(e)
         })
     }
