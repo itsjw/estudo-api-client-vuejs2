@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <table v-if="tasks && tasks.length && !resultTask" class="table is-striped is-narrow is-hoverable is-fullwidth">
+      <table v-if="tasks && tasks.length && !resultTask" class="table is-striped is-narrow is-hoverable is-fullwidth" style="margin-top: 30px;">
         <thead class="thead">
           <tr class="tr">
             <th>Id</th>
@@ -86,10 +86,10 @@ export default {
   },
   methods: {
     deleteTask: function (id) {
-      HTTP.delete(`api/v1/task/` + id)
+      HTTP.delete(`api/v1/tasks/` + id)
       .then(response => {
         this.message = response.data.message
-        this.fetchTasks()
+        this.fetchAlltasks()
       })
       .catch(e => {
         this.errors.push(e)
@@ -102,7 +102,7 @@ export default {
         return
       }
 
-      HTTP.get(`api/v1/task/` + this.searchId)
+      HTTP.get(`api/v1/tasks/` + this.searchId)
       .then(response => {
         this.resultTask = response.data
       })
@@ -117,9 +117,9 @@ export default {
         return
       }
 
-      HTTP.post(`api/v1/task`, {title: this.newTask.title})
+      HTTP.post(`api/v1/tasks`, {title: this.newTask.title})
       .then(response => {
-        this.fetchTasks()
+        this.fetchAlltasks()
         this.newTask.title = ''
       })
       .catch(e => {
@@ -127,8 +127,8 @@ export default {
         console.log(e)
       })
     },
-    fetchTasks: function () {
-      HTTP.get(`api/v1/task`)
+    fetchAlltasks: function () {
+      HTTP.get(`api/v1/tasks`)
         .then(response => {
           this.tasks = response.data
         })
@@ -139,7 +139,7 @@ export default {
     }
   },
   created () {
-    this.fetchTasks()
+    this.fetchAlltasks()
   }
 }
 </script>
