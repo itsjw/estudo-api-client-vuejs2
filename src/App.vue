@@ -59,7 +59,11 @@
           </tr>
         </tbody>
       </table>
-      <p style="text-align: center;">{{message}}</p>
+      <article v-if="message" class="message is-success is-small">
+        <div class="message-body">
+          {{message}}
+        </div>
+      </article>
     </div>
   </section>
 </template>
@@ -69,6 +73,7 @@
 </style>
 
 <script>
+
 import {HTTP} from './http-common'
 
 export default {
@@ -84,15 +89,14 @@ export default {
     }
   },
   methods: {
-    deleteTask: function (id) {
-      HTTP.delete(`api/v1/tasks/` + id)
-      .then(response => {
-        this.message = response.data.message
-        this.fetchAlltasks()
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    fetchAlltasks: function () {
+      HTTP.get(`api/v1/tasks`)
+        .then(response => {
+          this.tasks = response.data
+        })
+        .catch(e => {
+          console.log(e)
+        })
     },
     getTask: function () {
       if (this.searchId === '') {
@@ -110,7 +114,7 @@ export default {
     },
     saveTask: function () {
       if (this.newTask.title === '') {
-        alert('Preencha o título.')
+        alert('Preencha o título da nova tarefa.')
         return
       }
 
@@ -123,14 +127,15 @@ export default {
         console.log(e)
       })
     },
-    fetchAlltasks: function () {
-      HTTP.get(`api/v1/tasks`)
-        .then(response => {
-          this.tasks = response.data
-        })
-        .catch(e => {
-          console.log(e)
-        })
+    deleteTask: function (id) {
+      HTTP.delete(`api/v1/tasks/` + id)
+      .then(response => {
+        this.message = response.data.message
+        this.fetchAlltasks()
+      })
+      .catch(e => {
+        console.log(e)
+      })
     }
   },
   created () {
