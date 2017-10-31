@@ -85,18 +85,21 @@ export default {
       resultTask: null,
       newTask: {
         title: ''
-      }
+      },
+      token: ''
     }
   },
   methods: {
     fetchAlltasks: function () {
-      HTTP.get(`api/v1/tasks`)
-        .then(response => {
-          this.tasks = response.data
+      HTTP.get(`api/v1/tasks`,
+        {headers: {Authorization: 'Bearer ' + this.token}
         })
-        .catch(e => {
-          console.log(e)
-        })
+      .then(response => {
+        this.tasks = response.data
+      })
+      .catch(e => {
+        console.log(e)
+      })
     },
     getTask: function () {
       if (this.searchId === '') {
@@ -104,7 +107,9 @@ export default {
         return
       }
 
-      HTTP.get(`api/v1/tasks/` + this.searchId)
+      HTTP.get(`api/v1/tasks/` + this.searchId,
+        {headers: {Authorization: 'Bearer ' + this.token}
+        })
       .then(response => {
         this.resultTask = response.data
       })
@@ -118,7 +123,9 @@ export default {
         return
       }
 
-      HTTP.post(`api/v1/tasks`, {title: this.newTask.title})
+      HTTP.post(`api/v1/tasks/`, {title: this.newTask.title},
+        {headers: {Authorization: 'Bearer ' + this.token}
+        })
       .then(response => {
         this.fetchAlltasks()
         this.newTask.title = ''
@@ -128,9 +135,21 @@ export default {
       })
     },
     deleteTask: function (id) {
-      HTTP.delete(`api/v1/tasks/` + id)
+      HTTP.delete(`api/v1/tasks/` + id,
+        {headers: {Authorization: 'Bearer ' + this.token}
+        })
       .then(response => {
         this.message = response.data.message
+        this.fetchAlltasks()
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    },
+    initialize: function () {
+      HTTP.post(`api/v1/login`, {username: 'reginaldo', password: '123456'})
+      .then(response => {
+        this.token = response.data.token
         this.fetchAlltasks()
       })
       .catch(e => {
@@ -139,7 +158,7 @@ export default {
     }
   },
   created () {
-    this.fetchAlltasks()
+    this.initialize()
   }
 }
 </script>
